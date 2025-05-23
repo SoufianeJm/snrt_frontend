@@ -97,6 +97,9 @@ class RecommendedSection extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = recommendationMockData[index];
               return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
