@@ -4,6 +4,7 @@ import '../../../../core/theme/color_scheme.dart';
 import '../../../../core/theme/text_styles.dart';
 import '../../../../mockdata/carousel_mock_data.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui';
 
 class CustomCarousel extends StatefulWidget {
   final List<CarouselItem> items;
@@ -70,6 +71,13 @@ class _CustomCarouselState extends State<CustomCarousel> {
                     width: availableWidth,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.08),
+                          blurRadius: 16,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
@@ -88,61 +96,74 @@ class _CustomCarouselState extends State<CustomCarousel> {
                               );
                             },
                           ),
-                          // Gradient overlay
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: Container(
-                              height: 100,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topCenter,
-                                  colors: [
-                                    AppColors.alwaysBlack.withOpacity(0.8),
-                                    AppColors.alwaysBlack.withOpacity(0.0),
-                                  ],
-                                  stops: const [0.0, 0.9],
-                                ),
+                          // Left-to-right hard black gradient overlay
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: [
+                                  Colors.black,
+                                  Colors.black,
+                                  Colors.transparent,
+                                  Colors.transparent,
+                                ],
+                                stops: const [0.1, 0.3, 1, 1],
                               ),
                             ),
                           ),
-                          // Content overlay
+                          // Content overlay (left-aligned)
                           Positioned(
-                            left: 20,
-                            bottom: 20,
-                            right: 20,
-                            child: Row(
+                            left: 24,
+                            top: 24,
+                            bottom: 24,
+                            right: availableWidth * 0.35,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Flexible(
-                                  child: Text(
-                                    item.title,
-                                    style: textStyles.headlineMedium.copyWith(
-                                      color: Colors.white,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.title,
+                                      style: textStyles.bodyLarge.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      item.description,
+                                      style: textStyles.bodyMedium.copyWith(
+                                        color: Colors.white.withOpacity(0.85),
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
                                 ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    foregroundColor: colors.textPrimaryHeader,
-                                    shape: const StadiumBorder(),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 8,
+                                SizedBox(
+                                  height: 36,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.white,
+                                      foregroundColor: colors.textPrimaryHeader,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(24),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                      elevation: 0,
                                     ),
-                                    elevation: 0,
-                                  ),
-                                  onPressed: () => _launchUrl(item.exploreUrl),
-                                  child: Text(
-                                    'Explore Now',
-                                    style: textStyles.bodySmall.copyWith(
-                                      color: AppColors.alwaysBlack,
-                                      fontWeight: FontWeight.bold,
+                                    onPressed: () => _launchUrl(item.exploreUrl),
+                                    child: Text(
+                                      'Explore Now',
+                                      style: textStyles.bodySmall.copyWith(
+                                        color: AppColors.alwaysBlack,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),

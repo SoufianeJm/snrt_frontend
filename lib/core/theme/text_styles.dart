@@ -138,7 +138,7 @@ class _DarkTextStyles extends _BaseTextStyles {
 
   @override
   TextStyle get headlineMedium => baseStyle.copyWith(
-    fontSize: 22,
+    fontSize: 16,
     fontWeight: FontWeight.w600, // semi-bold
     color: AppColors.dark.textPrimaryHeader,
     height: 1.3,

@@ -3,9 +3,18 @@ import '../../../../core/widgets/custom_app_bar.dart';
 import '../../../../core/widgets/custom_search_bar.dart';
 import '../../../../mockdata/carousel_mock_data.dart';
 import '../widgets/custom_carousel.dart';
+import '../../../../core/widgets/custom_bottom_nav_bar.dart';
+import '../widgets/recommended_section.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -14,20 +23,29 @@ class HomePage extends StatelessWidget {
         preferredSize: Size.fromHeight(56),
         child: CustomAppBar(),
       ),
-      // This padding follows the Figma 5-c2lumn grid (20px margin) // Comment retained, though padding is removed
-      body: Column( // The Padding widget was removed here
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 20),
-          const CustomSearchBar(),
-          const SizedBox(height: 20),
-          CustomCarousel(
-            items: carouselMockData,
-            height: 200,
-          ),
-          const SizedBox(height: 20),
-          // More widgets coming here...
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            const CustomSearchBar(),
+            const SizedBox(height: 20),
+            CustomCarousel(
+              items: carouselMockData,
+              height: 200,
+            ),
+            const RecommendedSection(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+          // Handle navigation here if needed
+        },
       ),
     );
   }
